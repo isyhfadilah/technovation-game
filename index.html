@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real or AI? — Seminar Challenge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary: #0646B8;
+      --primary-bg: #E8EFFE;
+      --primary-bd: #ACC3F5;
+      --secondary: #DBD5DA;
+      --bg: #F5F4F7;
+      --surface: #FFFFFF;
+      --surface2: #EDE9EC;
+      --border: #DBD5DA;
+      --border2: #BDB6BC;
+      --ink: #0D0D14;
+      --ink2: #3D3A4A;
+      --ink3: #8A849A;
+      --accent: #0646B8;
+      --accent-bg: #E8EFFE;
+      --accent-bd: #ACC3F5;
+      --red: #C0392B;
+      --red-bg: #FAEAE8;
+      --red-bd: #E8B4AE;
+      --green: #1A6B55;
+      --green-bg: #EAF4F0;
+      --green-bd: #B2D9CE;
+      --gold: #0646B8;
+      --gold-bg: #E8EFFE;
+      --r1-accent: #0646B8;
+      --r2-accent: #5C35A0;
+      --r3-accent: #C0392B;
+      --font-d: 'Plus Jakarta Sans', sans-serif;
+      --font-b: 'Plus Jakarta Sans', sans-serif;
+      --radius: 16px;
+      --shadow: 0 2px 12px rgba(6, 70, 184, 0.07);
+      --shadow-lg: 0 8px 32px rgba(6, 70, 184, 0.10);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-b);
+      min-height: 100vh;
+    }
+
+    .screen {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ──────────────────────────────────────────
+   INTRO
+────────────────────────────────────────── */
+    #intro {
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* decorative grid lines */
+    #intro::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--secondary) 1px, transparent 1px),
+        linear-gradient(90deg, var(--secondary) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .intro-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 620px;
+    }
+
+    .intro-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: var(--primary-bg);
+      border: 1px solid var(--primary-bd);
+      border-radius: 100px;
+      padding: 0.35rem 1rem;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .intro-title {
+      font-family: var(--font-d);
+      font-size: clamp(3.2rem, 9vw, 6rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.5s 0.08s ease both;
+    }
+
+    .intro-title .t-real {
+      color: var(--ink);
+    }
+
+    .intro-title .t-sep {
+      color: var(--ink3);
+      font-style: italic;
+      font-weight: 600;
+      font-size: 0.55em;
+      display: block;
+      line-height: 1.6;
+    }
+
+    .intro-title .t-ai {
+      color: var(--primary);
+    }
+
+    .intro-desc {
+      font-size: 1rem;
+      color: var(--ink2);
+      line-height: 1.7;
+      max-width: 400px;
+      margin: 0 auto 2.5rem;
+      font-weight: 300;
+      animation: fadeUp 0.5s 0.16s ease both;
+    }
+
+    .intro-meta {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.5s 0.22s ease both;
+    }
+
+    .meta-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.65rem 1.2rem;
+      font-size: 0.82rem;
+      color: var(--ink2);
+      font-weight: 500;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .meta-pill strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .btn-start {
+      font-family: var(--font-b);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      border-radius: 100px;
+      padding: 0.9rem 2.8rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(26, 23, 20, 0.18);
+      animation: fadeUp 0.5s 0.28s ease both;
+    }
+
+    .btn-start:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(6, 70, 184, 0.25);
+    }
+
+    .btn-start:active {
+      transform: scale(0.97);
+    }
+
+    /* ──────────────────────────────────────────
+   QUIZ HEADER
+────────────────────────────────────────── */
+    .quiz-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1rem 2.5rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 1px 8px rgba(26, 23, 20, 0.05);
+    }
+
+    .ql-logo {
+      font-family: var(--font-d);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .ql-prog {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .prog-track {
+      flex: 1;
+      height: 5px;
+      background: var(--surface2);
+      border-radius: 99px;
+      overflow: hidden;
+      max-width: 260px;
+    }
+
+    .prog-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: var(--ink);
+      transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s;
+    }
+
+    .prog-text {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--ink3);
+      white-space: nowrap;
+    }
+
+    .diff-badge {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.28rem 0.8rem;
+      border-radius: 100px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .diff-easy {
+      background: var(--primary-bg);
+      color: var(--primary);
+      border: 1px solid var(--primary-bd);
+    }
+
+    .diff-medium {
+      background: #F0EBF9;
+      color: var(--r2-accent);
+      border: 1px solid #C9A8E8;
+    }
+
+    .diff-hard {
+      background: var(--red-bg);
+      color: var(--red);
+      border: 1px solid var(--red-bd);
+    }
+
+    /* ──────────────────────────────────────────
+   QUIZ BODY
+────────────────────────────────────────── */
+    .quiz-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 2rem 4rem;
+      max-width: 1040px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Round indicator strip */
+    .round-strip {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.2rem;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .round-num-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.85rem;
+      border-radius: 100px;
+      border: 1.5px solid currentColor;
+    }
+
+    .rn-1 {
+      color: var(--r1-accent);
+      border-color: var(--r1-accent);
+      background: var(--primary-bg);
+    }
+
+    .rn-2 {
+      color: var(--r2-accent);
+      border-color: var(--r2-accent);
+      background: #F0EBF9;
+    }
+
+    .rn-3 {
+      color: var(--r3-accent);
+      border-color: var(--r3-accent);
+      background: var(--red-bg);
+    }
+
+    .round-cat {
+      font-size: 0.78rem;
+      color: var(--ink3);
+      font-weight: 500;
+    }
+
+    .q-prompt {
+      font-family: var(--font-d);
+      font-size: clamp(1.3rem, 3.5vw, 1.75rem);
+      font-weight: 700;
+      text-align: center;
+      color: var(--ink);
+      margin-bottom: 0.45rem;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+      animation: fadeUp 0.4s 0.05s ease both;
+    }
+
+    .q-sub {
+      font-size: 0.88rem;
+      color: var(--ink3);
+      text-align: center;
+      margin-bottom: 2rem;
+      font-weight: 400;
+      animation: fadeUp 0.4s 0.1s ease both;
+    }
+
+    /* ── CHOICE GRID ── */
+    .choices-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      width: 100%;
+      max-width: 880px;
+      align-items: stretch;
+      animation: fadeUp 0.4s 0.15s ease both;
+    }
+
+    .vs-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 1rem;
+    }
+
+    .vs-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--ink3);
+      letter-spacing: 0.04em;
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
+    }
+
+    .choice-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      min-height: 300px;
+      box-shadow: var(--shadow);
+    }
+
+    .choice-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .choice-card.state-correct {
+      border-color: var(--green) !important;
+      box-shadow: 0 0 0 3px rgba(26, 107, 85, 0.12), var(--shadow-lg) !important;
+      transform: none !important;
+    }
+
+    .choice-card.state-wrong {
+      border-color: var(--red) !important;
+      box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1) !important;
+      opacity: 0.75;
+      transform: none !important;
+    }
+
+    .choice-card.locked {
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /* Face card content frame */
+    .choice-card>div:not(.card-footer) {
+      min-height: 280px;
+      max-height: 280px;
+      overflow: hidden;
+      display: flex;
+      align-items: stretch;
+    }
+
+    /* Face image */
+    .face-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      background: var(--surface2);
+    }
+
+    .face-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--surface2);
+      color: var(--ink3);
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* Chat mock */
+    .chat-mock {
+      flex: 1;
+      padding: 1.1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      background: var(--bg);
+      min-height: 220px;
+    }
+
+    .chat-from {
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.1rem;
+    }
+
+    .bubble {
+      padding: 0.65rem 0.9rem;
+      border-radius: 12px;
+      font-size: 0.84rem;
+      line-height: 1.55;
+      max-width: 90%;
+    }
+
+    .bubble-u {
+      background: var(--primary-bg);
+      border: 1px solid var(--primary-bd);
+      color: var(--ink2);
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+
+    .bubble-r {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--ink);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 1px 4px rgba(26, 23, 20, 0.05);
+    }
+
+    /* Card footer */
+    .card-footer {
+      padding: 0.7rem 1rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .cf-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink3);
+    }
+
+    .cf-hint {
+      font-size: 0.73rem;
+      color: var(--ink3);
+      font-weight: 400;
+    }
+
+    .cf-icon {
+      font-size: 1.1rem;
+      display: none;
+    }
+
+    .state-correct .cf-icon {
+      display: block;
+    }
+
+    .state-wrong .cf-icon {
+      display: block;
+    }
+
+    .state-correct .cf-hint,
+    .state-wrong .cf-hint {
+      display: none;
+    }
+
+    /* ── REVEAL ── */
+    .reveal-box {
+      display: none;
+      margin-top: 1.75rem;
+      width: 100%;
+      max-width: 880px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      animation: slideUp 0.35s ease;
+    }
+
+    .reveal-box.open {
+      display: block;
+    }
+
+    .reveal-top {
+      padding: 1.1rem 1.5rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .verdict-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.85rem;
+      border-radius: 100px;
+    }
+
+    .vt-correct {
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid var(--green-bd);
+    }
+
+    .vt-wrong {
+      background: var(--red-bg);
+      color: var(--red);
+      border: 1px solid var(--red-bd);
+    }
+
+    .reveal-headline {
+      font-family: var(--font-d);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .reveal-body {
+      padding: 1rem 1.5rem 1.2rem;
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      background: var(--bg);
+    }
+
+    .reveal-exp {
+      flex: 1;
+      min-width: 220px;
+      font-size: 0.88rem;
+      color: var(--ink2);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .reveal-tags {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      min-width: 160px;
+    }
+
+    .rtag {
+      font-size: 0.73rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 8px;
+      background: var(--surface2);
+      color: var(--ink2);
+      border: 1px solid var(--border);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .reveal-footer {
+      padding: 0.85rem 1.5rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-next {
+      font-family: var(--font-b);
+      font-size: 0.88rem;
+      font-weight: 600;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      border-radius: 100px;
+      padding: 0.65rem 1.8rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-next:hover {
+      background: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    /* ──────────────────────────────────────────
+   RESULT
+────────────────────────────────────────── */
+    #result {
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .result-inner {
+      max-width: 520px;
+    }
+
+    .result-ring {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 3px solid var(--primary);
+      margin: 0 auto 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      box-shadow: 0 0 0 8px var(--primary-bg);
+      animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .rr-score {
+      font-family: var(--font-d);
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+    }
+
+    .rr-of {
+      font-size: 0.75rem;
+      color: var(--ink3);
+      font-weight: 500;
+      margin-top: 0.1rem;
+    }
+
+    .result-title {
+      font-family: var(--font-d);
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+      animation: fadeUp 0.5s 0.2s ease both;
+    }
+
+    .result-sub {
+      font-size: 0.95rem;
+      color: var(--ink2);
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.5s 0.28s ease both;
+    }
+
+    .result-pills {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.5s 0.34s ease both;
+    }
+
+    .rp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem 1.8rem;
+      box-shadow: var(--shadow);
+      min-width: 110px;
+    }
+
+    .rp-num {
+      font-family: var(--font-d);
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .rp-lbl {
+      font-size: 0.72rem;
+      color: var(--ink3);
+      font-weight: 500;
+      margin-top: 0.2rem;
+    }
+
+    .btn-replay {
+      font-family: var(--font-b);
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: transparent;
+      color: var(--ink);
+      border: 2px solid var(--ink);
+      border-radius: 100px;
+      padding: 0.75rem 2.5rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      animation: fadeUp 0.5s 0.4s ease both;
+    }
+
+    .btn-replay:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* ──────────────────────────────────────────
+   ANIMATIONS
+────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.6);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-8px);
+      }
+
+      75% {
+        transform: translateX(8px);
+      }
+    }
+
+    .do-shake {
+      animation: shake 0.38s ease;
+    }
+
+    /* ──────────────────────────────────────────
+   RESPONSIVE
+────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .choices-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .vs-col {
+        padding: 0 0.5rem;
+      }
+
+      .vs-circle {
+        width: 34px;
+        height: 34px;
+        font-size: 0.62rem;
+      }
+
+      .choice-card {
+        min-height: 220px;
+        border-radius: 12px;
+      }
+
+      .face-img {
+        min-height: 160px;
+      }
+
+      .quiz-body {
+        padding: 1.5rem 1rem 3rem;
+      }
+
+      .quiz-header {
+        padding: 0.75rem 1rem;
+        gap: 0.75rem;
+      }
+
+      .reveal-body {
+        flex-direction: column;
+      }
+
+      .reveal-tags {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══ INTRO ══════════════════════════════════════════════ -->
+  <section id="intro" class="screen active">
+    <div class="intro-inner">
+      <div class="intro-tag">Dies Natalis ke-3 SATU University · Sesi Penutup</div>
+      <h1 class="intro-title">
+        <span class="t-real">Real</span>
+        <span class="t-sep">or</span>
+        <span class="t-ai">AI?</span>
+      </h1>
+      <p class="intro-desc">Bisa kamu bedain mana yang asli buatan manusia dan mana yang dibuat AI? Buktikan sekarang.
+      </p>
+      <div class="intro-meta">
+        <div class="meta-pill"><strong>3</strong> pertanyaan</div>
+        <div class="meta-pill">kesulitan <strong>bertingkat</strong></div>
+        <div class="meta-pill">pilih <strong>kiri</strong> atau <strong>kanan</strong></div>
+      </div>
+      <button class="btn-start" onclick="startQuiz()">Mulai Tantangan →</button>
+    </div>
+  </section>
+
+  <!-- ══ QUIZ ════════════════════════════════════════════════ -->
+  <section id="quiz" class="screen">
+    <header class="quiz-header">
+      <div class="ql-logo">Real or AI?</div>
+      <div class="ql-prog">
+        <div class="prog-track">
+          <div class="prog-fill" id="progFill"></div>
+        </div>
+        <div class="prog-text" id="progText">1 / 3</div>
+      </div>
+      <div class="diff-badge" id="diffBadge">Mudah</div>
+    </header>
+
+    <div class="quiz-body">
+      <div class="round-strip">
+        <div class="round-num-badge" id="roundBadge">Ronde 1</div>
+        <div class="round-cat" id="roundCat">Wajah</div>
+      </div>
+      <h2 class="q-prompt" id="qPrompt">Mana yang foto asli?</h2>
+      <p class="q-sub" id="qSub">Pilih kiri atau kanan</p>
+
+      <div class="choices-grid">
+        <!-- LEFT -->
+        <div class="choice-card" id="cardL" onclick="pick('left')">
+          <div id="contentL"></div>
+          <div class="card-footer">
+            <span class="cf-label">Pilihan A</span>
+            <span class="cf-hint">Klik untuk pilih</span>
+            <span class="cf-icon" id="iconL"></span>
+          </div>
+        </div>
+
+        <!-- VS -->
+        <div class="vs-col">
+          <div class="vs-circle">VS</div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="choice-card" id="cardR" onclick="pick('right')">
+          <div id="contentR"></div>
+          <div class="card-footer">
+            <span class="cf-label">Pilihan B</span>
+            <span class="cf-hint">Klik untuk pilih</span>
+            <span class="cf-icon" id="iconR"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- REVEAL -->
+      <div class="reveal-box" id="revealBox">
+        <div class="reveal-top">
+          <div class="verdict-tag" id="verdictTag"></div>
+          <div class="reveal-headline" id="revealHL"></div>
+        </div>
+        <div class="reveal-body">
+          <div class="reveal-exp" id="revealExp"></div>
+          <div class="reveal-tags" id="revealTags"></div>
+        </div>
+        <div class="reveal-footer">
+          <button class="btn-next" id="btnNext" onclick="nextQ()">Lanjut →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ RESULT ══════════════════════════════════════════════ -->
+  <section id="result" class="screen">
+    <div class="result-inner">
+      <div class="result-ring">
+        <div class="rr-score" id="rrScore">0</div>
+        <div class="rr-of" id="rrOf">dari 3</div>
+      </div>
+      <h2 class="result-title" id="resTitle">Keren!</h2>
+      <p class="result-sub" id="resSub"></p>
+      <div class="result-pills">
+        <div class="rp-card">
+          <div class="rp-num" id="rpRight">0</div>
+          <div class="rp-lbl">Benar</div>
+        </div>
+        <div class="rp-card">
+          <div class="rp-num" id="rpWrong">0</div>
+          <div class="rp-lbl">Salah</div>
+        </div>
+      </div>
+      <button class="btn-replay" onclick="startQuiz()">Coba Lagi</button>
+    </div>
+  </section>
+
+  <script>
+    const QS = [
+      {
+        diff: "Mudah", diffClass: "diff-easy",
+        round: "Ronde 1", cat: "Foto",
+        roundClass: "rn-1",
+        type: "face",
+        prompt: "Mana foto yg bukan buatan AI?",
+        sub: "Perhatikan keseluruhan gambar — ada sesuatu yang terasa 'terlalu sempurna'",
+        correctSide: "right",
+        leftSrc: "img/AI Image midle.png",
+        rightSrc: "img/Real Image midle.jpg",
+        explanation: "Foto kiri adalah AI-generated. Tanda paling jelas: tekstur kulit tampak terlalu mulus tanpa pori, senyuman dan struktur gigi terlampau simetris, pencahayaan merata yang kurang wajar, serta transisi anatomi yang canggung pada area lengan yang saling bersentuhan. Foto kanan adalah foto manusia asli dengan ketidaksempurnaan alami.",
+        tags: ["Tekstur terlalu mulus", "Senyum sangat simetris", "Asimetri wajah organik"],
+      },
+      {
+        diff: "Sedang", diffClass: "diff-medium",
+        round: "Ronde 2", cat: "Foto",
+        roundClass: "rn-1",
+        type: "face",
+        prompt: "Mana foto yg bukan buatan AI?",
+        sub: "Perhatikan keseluruhan gambar — ada sesuatu yang terasa 'terlalu sempurna'",
+        correctSide: "left",
+        leftSrc: "img/Real Image hard.jpg",
+        rightSrc: "img/AI Image hard.png",
+        explanation: "Foto kanan adalah AI-generated. Tanda paling jelas: anatomi jari-jari tangan melebur dan terdistorsi saat memegang gelas, struktur gigi dan bentuk wajah yang tampak tumpang tindih secara tidak wajar pada beberapa orang di belakang, serta posisi benda seperti popcorn di lantai yang berserakan dengan skala dan perspektif yang kurang masuk akal. Foto kiri adalah foto manusia asli dengan detail yang lebih meyakinkan.",
+        tags: ["Jari terdistorsi", "Wajah tumpang tindih", "Pencahayaan jendela konsisten", "Popcorn dengan perspektif aneh"],
+      },
+      {
+        diff: "Sulit", diffClass: "diff-hard",
+        round: "Ronde 3", cat: "Screenshot Chat",
+        roundClass: "rn-3",
+        type: "chat",
+        prompt: "Deteksi mana percakapan yg dibuat oleh AI?",
+        sub: "Ronde terakhir yang paling tricky — perhatikan detail kecil dalam logika jawaban",
+        correctSide: "right",
+        leftBubbles: [
+          { role: "u", text: "Menurutmu lebih baik ambil kerja atau lanjut S2 dulu?" },
+          { role: "r", text: "Tergantung banget sama situasimu. Kalau kamu udah punya tawaran kerja yang bagus dan bidangnya relevan, sayang dilewatin. Tapi kalau kamu ngerasa ilmunya masih kurang dan ada beasiswa, S2 bisa jadi investasi. Kamu lebih condong ke mana sekarang?" },
+        ],
+        rightBubbles: [
+          { role: "u", text: "Menurutmu lebih baik ambil kerja atau lanjut S2 dulu?" },
+          { role: "r", text: "Wah dilema klasik ini hehe. Jujur gue waktu itu juga galau banget. Akhirnya gue pilih kerja dulu karena ngerasa teori doang kurang, perlu ngerasain realita industri. Tapi balik lagi, field kamu apa? Karena di beberapa bidang S2 itu beneran ngaruh beda gitu loh." },
+        ],
+        explanation: "Pilihan kanan adalah AI yang sudah sangat dikalibrasi untuk terdengar informal. Tapi perhatikan: AI 'mengklaim' punya pengalaman pribadi ('gue waktu itu juga galau'), padahal AI tidak punya pengalaman. Pilihan kiri lebih jujur: tidak mengklaim pengalaman, langsung kasih kerangka berpikir yang berguna, dan pertanyaan baliknya lebih tajam dan spesifik.",
+        tags: ["AI mengklaim pengalaman palsu", "Kiri: kerangka berpikir jujur", "Kanan: empati dibuat-buat"],
+      },
+    ];
+
+    // ── STATE ─────────────────────────────────────────────────
+    let idx = 0, score = 0, locked = false;
+
+    // ── HELPERS ───────────────────────────────────────────────
+    const $ = id => document.getElementById(id);
+    function show(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      $(id).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    // ── START ─────────────────────────────────────────────────
+    function startQuiz() {
+      idx = 0; score = 0; locked = false;
+      show('quiz');
+      render();
+    }
+
+    // ── RENDER ────────────────────────────────────────────────
+    function render() {
+      locked = false;
+      const q = QS[idx];
+      const total = QS.length;
+
+      // header
+      $('progFill').style.width = (idx / total * 100) + '%';
+      $('progFill').style.background = q.diff === 'Mudah' ? 'var(--primary)' : q.diff === 'Sedang' ? 'var(--r2-accent)' : 'var(--r3-accent)';
+      $('progText').textContent = `${idx + 1} / ${total}`;
+      $('diffBadge').textContent = q.diff;
+      $('diffBadge').className = 'diff-badge ' + q.diffClass;
+
+      // round
+      $('roundBadge').textContent = q.round;
+      $('roundBadge').className = 'round-num-badge ' + q.roundClass;
+      $('roundCat').textContent = '· ' + q.cat;
+
+      // prompt
+      $('qPrompt').textContent = q.prompt;
+      $('qSub').textContent = q.sub;
+
+      // reset cards
+      ['cardL', 'cardR'].forEach(id => {
+        $(id).className = 'choice-card';
+        $(id).onclick = id === 'cardL' ? () => pick('left') : () => pick('right');
+      });
+      $('iconL').textContent = '';
+      $('iconR').textContent = '';
+      $('revealBox').classList.remove('open');
+
+      // content
+      if (q.type === 'face') {
+        setFace('contentL', q.leftSrc, 'Pilihan A');
+        setFace('contentR', q.rightSrc, 'Pilihan B');
+      } else {
+        setChat('contentL', q.leftBubbles);
+        setChat('contentR', q.rightBubbles);
+      }
+    }
+
+    function setFace(cid, src, alt) {
+      $(cid).innerHTML = `
+    <img class="face-img" src="${src}" alt="${alt}"
+      onerror="this.style.display='none';document.getElementById('ph_${cid}').style.display='flex'">
+    <div id="ph_${cid}" class="face-placeholder" style="display:none">
+      <span style="font-size:2.2rem">🖼️</span>
+      <span>Ganti dengan foto pilihanmu</span>
+      <span style="font-size:0.7rem;opacity:0.6">${src}</span>
+    </div>`;
+    }
+
+    function setChat(cid, bubbles) {
+      let h = `<div class="chat-mock"><div class="chat-from">Percakapan</div>`;
+      bubbles.forEach(b => {
+        h += `<div class="bubble bubble-${b.role}">${b.text}</div>`;
+      });
+      h += `</div>`;
+      $(cid).innerHTML = h;
+    }
+
+    // ── PICK ──────────────────────────────────────────────────
+    function pick(side) {
+      if (locked) return;
+      locked = true;
+
+      const q = QS[idx];
+      const isOk = side === q.correctSide;
+      if (isOk) score++;
+
+      const myCardId = side === 'left' ? 'cardL' : 'cardR';
+      const myIconId = side === 'left' ? 'iconL' : 'iconR';
+      const okCardId = q.correctSide === 'left' ? 'cardL' : 'cardR';
+      const okIconId = q.correctSide === 'left' ? 'iconL' : 'iconR';
+
+      $('cardL').classList.add('locked');
+      $('cardR').classList.add('locked');
+
+      if (isOk) {
+        $(myCardId).classList.add('state-correct');
+        $(myIconId).textContent = '✓';
+      } else {
+        $(myCardId).classList.add('state-wrong', 'do-shake');
+        $(myIconId).textContent = '✗';
+        $(okCardId).classList.add('state-correct');
+        $(okIconId).textContent = '✓';
+        setTimeout(() => $(myCardId).classList.remove('do-shake'), 400);
+      }
+
+      // reveal
+      const box = $('revealBox');
+      const vt = $('verdictTag');
+      if (isOk) {
+        vt.className = 'verdict-tag vt-correct';
+        vt.textContent = '✓ Benar!';
+        $('revealHL').textContent = 'Instingmu tidak bisa ditipu';
+      } else {
+        vt.className = 'verdict-tag vt-wrong';
+        vt.textContent = '✗ Salah';
+        $('revealHL').textContent = 'AI berhasil mengelabuimu kali ini';
+      }
+
+      $('revealExp').textContent = q.explanation;
+      $('revealTags').innerHTML = q.tags.map(t => `<div class="rtag">💡 ${t}</div>`).join('');
+      $('btnNext').textContent = idx + 1 >= QS.length ? 'Lihat Hasil →' : 'Lanjut →';
+
+      box.classList.add('open');
+      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // ── NEXT ──────────────────────────────────────────────────
+    function nextQ() {
+      idx++;
+      if (idx >= QS.length) showResult();
+      else { render(); document.querySelector('.quiz-body').scrollIntoView({ behavior: 'smooth' }); }
+    }
+
+    // ── RESULT ────────────────────────────────────────────────
+    function showResult() {
+      show('result');
+      const t = QS.length;
+      $('rrScore').textContent = score;
+      $('rrOf').textContent = `dari ${t}`;
+      $('rpRight').textContent = score;
+      $('rpWrong').textContent = t - score;
+
+      const msgs = [
+        ["AI menang kali ini 😅", "Tenang, mendeteksi AI itu skill yang bisa dilatih. Coba lagi dan perhatikan detail kecilnya!"],
+        ["Lumayan! 🤔", "Instingmu mulai terasah. Satu langkah lagi dan kamu bisa mengalahkan AI sepenuhnya."],
+        ["Hampir sempurna! 👀", "Kamu sangat tajam! Hanya satu soal yang berhasil mengelabuimu."],
+        ["Sempurna! 🎯", "Tidak ada yang bisa mengelabui kamu. Kamu benar-benar Humans as the Ultimate Leader!"],
+      ];
+      const [title, sub] = msgs[score] || msgs[0];
+      $('resTitle').textContent = title;
+      $('resSub').textContent = sub;
+    }
+  </script>
+</body>
+
+</html>
