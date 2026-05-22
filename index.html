@@ -912,7 +912,6 @@
 
 <body>
 
-  <!-- ══ INTRO ══════════════════════════════════════════════ -->
   <section id="intro" class="screen active">
     <div class="intro-inner">
       <div class="intro-tag">Technovation's Game · Sesi Penutup</div>
@@ -932,7 +931,6 @@
     </div>
   </section>
 
-  <!-- ══ QUIZ ════════════════════════════════════════════════ -->
   <section id="quiz" class="screen">
     <header class="quiz-header">
       <div class="ql-logo">Real or AI?</div>
@@ -954,7 +952,6 @@
       <p class="q-sub" id="qSub">Pilih kiri atau kanan</p>
 
       <div class="choices-grid">
-        <!-- LEFT -->
         <div class="choice-card" id="cardL" onclick="pick('left')">
           <div id="contentL"></div>
           <div class="card-footer">
@@ -964,12 +961,10 @@
           </div>
         </div>
 
-        <!-- VS -->
         <div class="vs-col">
           <div class="vs-circle">VS</div>
         </div>
 
-        <!-- RIGHT -->
         <div class="choice-card" id="cardR" onclick="pick('right')">
           <div id="contentR"></div>
           <div class="card-footer">
@@ -997,7 +992,6 @@
     </div>
   </section>
 
-  <!-- ══ RESULT ══════════════════════════════════════════════ -->
   <section id="result" class="screen">
     <div class="result-inner">
       <div class="result-ring">
@@ -1028,7 +1022,7 @@
         roundClass: "rn-1",
         type: "face",
         prompt: "Mana foto yg bukan buatan AI?",
-        sub: "Perhatikan keseluruhan gambar — ada sesuatu yang terasa 'terlalu sempurna'",
+        sub: "Perhatikan keseluruhan gambar, ada sesuatu yang terasa 'terlalu sempurna'",
         correctSide: "right",
         leftSrc: "img/AI Image midle.png",
         rightSrc: "img/Real Image midle.jpg",
@@ -1041,7 +1035,7 @@
         roundClass: "rn-1",
         type: "face",
         prompt: "Mana foto yg bukan buatan AI?",
-        sub: "Perhatikan keseluruhan gambar — ada sesuatu yang terasa 'terlalu sempurna'",
+        sub: "Perhatikan keseluruhan gambar, ada sesuatu yang terasa 'terlalu sempurna'",
         correctSide: "left",
         leftSrc: "img/Real Image hard.jpg",
         rightSrc: "img/AI Image hard.png",
@@ -1054,7 +1048,7 @@
         roundClass: "rn-3",
         type: "chat",
         prompt: "Deteksi mana percakapan yg dibuat oleh AI?",
-        sub: "Ronde terakhir yang paling tricky — perhatikan detail kecil dalam logika jawaban",
+        sub: "Ronde terakhir yang paling tricky, perhatikan detail kecil dalam logika jawaban",
         correctSide: "right",
         leftBubbles: [
           { role: "u", text: "Menurutmu lebih baik ambil kerja atau lanjut S2 dulu?" },
@@ -1069,10 +1063,8 @@
       },
     ];
 
-    // ── STATE ─────────────────────────────────────────────────
     let idx = 0, score = 0, locked = false;
 
-    // ── HELPERS ───────────────────────────────────────────────
     const $ = id => document.getElementById(id);
     function show(id) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -1080,36 +1072,30 @@
       window.scrollTo(0, 0);
     }
 
-    // ── START ─────────────────────────────────────────────────
     function startQuiz() {
       idx = 0; score = 0; locked = false;
       show('quiz');
       render();
     }
-
-    // ── RENDER ────────────────────────────────────────────────
+    s
     function render() {
       locked = false;
       const q = QS[idx];
       const total = QS.length;
 
-      // header
       $('progFill').style.width = (idx / total * 100) + '%';
       $('progFill').style.background = q.diff === 'Mudah' ? 'var(--primary)' : q.diff === 'Sedang' ? 'var(--r2-accent)' : 'var(--r3-accent)';
       $('progText').textContent = `${idx + 1} / ${total}`;
       $('diffBadge').textContent = q.diff;
       $('diffBadge').className = 'diff-badge ' + q.diffClass;
 
-      // round
       $('roundBadge').textContent = q.round;
       $('roundBadge').className = 'round-num-badge ' + q.roundClass;
       $('roundCat').textContent = '· ' + q.cat;
 
-      // prompt
       $('qPrompt').textContent = q.prompt;
       $('qSub').textContent = q.sub;
 
-      // reset cards
       ['cardL', 'cardR'].forEach(id => {
         $(id).className = 'choice-card';
         $(id).onclick = id === 'cardL' ? () => pick('left') : () => pick('right');
@@ -1148,7 +1134,6 @@
       $(cid).innerHTML = h;
     }
 
-    // ── PICK ──────────────────────────────────────────────────
     function pick(side) {
       if (locked) return;
       locked = true;
@@ -1176,7 +1161,6 @@
         setTimeout(() => $(myCardId).classList.remove('do-shake'), 400);
       }
 
-      // reveal
       const box = $('revealBox');
       const vt = $('verdictTag');
       if (isOk) {
@@ -1197,14 +1181,12 @@
       box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
-    // ── NEXT ──────────────────────────────────────────────────
     function nextQ() {
       idx++;
       if (idx >= QS.length) showResult();
       else { render(); document.querySelector('.quiz-body').scrollIntoView({ behavior: 'smooth' }); }
     }
 
-    // ── RESULT ────────────────────────────────────────────────
     function showResult() {
       show('result');
       const t = QS.length;
